@@ -16,7 +16,7 @@ namespace QualityBags.Models
         public decimal GrandTotal { get; set; }
 
         //Navigation Properties
-        public Customer Customer;
-        public ICollection<OrderDetail> OrderDetails;
+        public Customer Customer { get; set; }
+        public ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

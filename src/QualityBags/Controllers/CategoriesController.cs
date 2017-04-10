@@ -33,7 +33,11 @@ namespace QualityBags.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Categories.SingleOrDefaultAsync(m => m.ID == id);
+            var category = await _context.Categories
+                .Include(c => c.Products)
+                    .ThenInclude(p => p.Supplier)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(m => m.ID == id);
             if (category == null)
             {
                 return NotFound();

@@ -14,6 +14,6 @@ namespace QualityBags.Models
         public string Description { get; set; }
 
         //Navigation Properties
-        public ICollection<Product> Products;
+        public ICollection<Product> Products { get; set; }
     }
 }

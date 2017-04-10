@@ -17,7 +17,7 @@ namespace QualityBags.Models
         public decimal TotalCost { get; set; }
 
         //Navigation Properties
-        public Product Product;
-        public Order Order;
+        public Product Product { get; set; }
+        public Order Order { get; set; }
     }
 }

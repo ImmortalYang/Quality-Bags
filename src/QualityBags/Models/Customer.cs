@@ -17,6 +17,6 @@ namespace QualityBags.Models
         public string EmailAddress { get; set; }
 
         //Navigation Properties
-        public ICollection<Order> Orders;
+        public ICollection<Order> Orders { get; set; }
     }
 }

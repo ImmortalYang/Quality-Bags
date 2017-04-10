@@ -18,8 +18,8 @@ namespace QualityBags.Models
         public string ImagePath { get; set; }
 
         //Navigation Properties
-        public Category Category;
-        public Supplier Supplier;
-        public ICollection<OrderDetail> OrderDetails;
+        public Category Category { get; set; }
+        public Supplier Supplier { get; set; }
+        public ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }
