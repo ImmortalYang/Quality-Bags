@@ -156,6 +156,7 @@ namespace QualityBags
                     LastName = "Zhang",
                     PhoneNumber = "0273878820",
                     Address = "139 Carrington Road",
+                    Enabled = true,
                 };
                 string powerUserPassword = Configuration.GetSection("UserSettings")["UserPassword"];
                 

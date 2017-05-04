@@ -57,14 +57,23 @@ namespace QualityBags.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                // Require the user to have a confirmed email before they can log on.
+                
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user != null)
                 {
+                    //Require the user to have an enabled state before they can log on.
+                    if (user.Enabled == false)
+                    {
+                        ModelState.AddModelError(string.Empty, 
+                            "Your Account is currently Disabled, please consult the Administrator.");
+                        return View(model);
+                    }
+
+                    // Require the user to have a confirmed email before they can log on.
                     if (!await _userManager.IsEmailConfirmedAsync(user))
                     {
                         ModelState.AddModelError(string.Empty,
-                                      "You must have a confirmed email to log in.");
+                            "You must have a confirmed email to log in.");
                         return View(model);
                     }
                 }
@@ -124,6 +133,7 @@ namespace QualityBags.Controllers
                     Address = model.Address,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
+                    Enabled = true,
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
