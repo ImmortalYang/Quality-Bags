@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using QualityBags.Data;
 using QualityBags.Models;
 using QualityBags.Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace QualityBags
 {
@@ -66,10 +67,13 @@ namespace QualityBags
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, 
+        public async void Configure(IApplicationBuilder app, 
             IHostingEnvironment env, 
             ILoggerFactory loggerFactory, 
-            QualityBagsContext context)
+            QualityBagsContext context,
+            ApplicationDbContext appContext,
+            IServiceProvider serviceProvider,
+            UserManager<ApplicationUser> userManager)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -102,7 +106,68 @@ namespace QualityBags
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
 
+            await CreateRoles(serviceProvider);
+            //Seed database with initial data
             DbInitializer.Initialize(context);
+            //If user doesn't have a role, set the role to Member
+            foreach (ApplicationUser user in appContext.Users.ToList())
+            {
+                int count = userManager.GetRolesAsync(user).Result.ToList().Count;
+                if (count < 1)
+                {
+                    await userManager.AddToRoleAsync(user, "Member");
+                }
+            }
+
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="serviceProvider"></param>
+        /// <returns></returns>
+        private async Task CreateRoles(IServiceProvider serviceProvider)
+        {
+            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var UserManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            string[] roleNames = { "Admin", "Member" };
+          
+            foreach (var roleName in roleNames)
+            {
+                //Create role if role doesn't exist
+                bool roleExist = await RoleManager.RoleExistsAsync(roleName);
+                if (!roleExist)
+                {
+                    await RoleManager.CreateAsync(new IdentityRole(roleName));
+                }
+            }
+            
+            ApplicationUser _user = 
+                await UserManager.FindByEmailAsync(Configuration.GetSection("UserSettings")["UserEmail"]);
+            //If Admin user doesn't exist then create an Admin power user
+            if (_user == null)
+            {
+                ApplicationUser powerUser = new ApplicationUser
+                {
+                    UserName = Configuration.GetSection("UserSettings")["UserEmail"],
+                    Email = Configuration.GetSection("UserSettings")["UserEmail"],
+                    EmailConfirmed = true,
+                    FirstName = "John",
+                    LastName = "Zhang",
+                    PhoneNumber = "0273878820",
+                    Address = "139 Carrington Road",
+                };
+                string powerUserPassword = Configuration.GetSection("UserSettings")["UserPassword"];
+                
+                IdentityResult createPowerUser = 
+                    await UserManager.CreateAsync(powerUser, powerUserPassword);
+                if (createPowerUser.Succeeded)
+                {
+                    //here we tie the new user to the "Admin" role 
+                    await UserManager.AddToRoleAsync(powerUser, "Admin");
+                }
+            }
+        }
+
     }
 }
