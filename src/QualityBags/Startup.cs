@@ -47,8 +47,6 @@ namespace QualityBags
             services.AddApplicationInsightsTelemetry(Configuration);
 
             //Add database context services
-            services.AddDbContext<QualityBagsContext>(options => 
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<ApplicationDbContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -70,7 +68,6 @@ namespace QualityBags
         public async void Configure(IApplicationBuilder app, 
             IHostingEnvironment env, 
             ILoggerFactory loggerFactory, 
-            QualityBagsContext context,
             ApplicationDbContext appContext,
             IServiceProvider serviceProvider,
             UserManager<ApplicationUser> userManager)
@@ -108,7 +105,7 @@ namespace QualityBags
 
             await CreateRoles(serviceProvider);
             //Seed database with initial data
-            DbInitializer.Initialize(context);
+            DbInitializer.Initialize(appContext);
             //If user doesn't have a role, set the role to Member
             foreach (ApplicationUser user in appContext.Users.ToList())
             {

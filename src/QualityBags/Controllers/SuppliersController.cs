@@ -14,9 +14,9 @@ namespace QualityBags.Controllers
     [Authorize(Roles = "Admin")]
     public class SuppliersController : Controller
     {
-        private readonly QualityBagsContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public SuppliersController(QualityBagsContext context)
+        public SuppliersController(ApplicationDbContext context)
         {
             _context = context;    
         }

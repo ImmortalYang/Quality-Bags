@@ -13,7 +13,7 @@ namespace QualityBags.Data
     /// </summary>
     public static class DbInitializer
     {
-        public static void Initialize(QualityBagsContext context)
+        public static void Initialize(ApplicationDbContext context)
         {
             context.Database.EnsureCreated();
 

@@ -18,10 +18,10 @@ namespace QualityBags.Controllers
     [AllowAnonymous]
     public class ProductsController : Controller
     {
-        private readonly QualityBagsContext _context;
+        private readonly ApplicationDbContext _context;
         private readonly IHostingEnvironment _hostEnv;
 
-        public ProductsController(QualityBagsContext context, IHostingEnvironment hEnv)
+        public ProductsController(ApplicationDbContext context, IHostingEnvironment hEnv)
         {
             _context = context;
             _hostEnv = hEnv;  
