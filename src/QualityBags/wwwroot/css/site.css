@@ -48,3 +48,9 @@ textarea {
     display: none
   }
 }
+
+.product-image{
+    width:250px; 
+    height:auto;
+    margin-bottom:5px;
+}
