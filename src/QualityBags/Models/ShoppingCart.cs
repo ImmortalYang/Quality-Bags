@@ -38,7 +38,7 @@ namespace QualityBags.Models
         /// </summary>
         /// <param name="product"></param>
         /// <param name="appContext"></param>
-        public async void AddToCart(Product product, ApplicationDbContext appContext)
+        public async Task AddToCart(Product product, ApplicationDbContext appContext)
         {
             var cartItem = await appContext.CartItems
                 .SingleOrDefaultAsync(c => c.CartID == ShoppingCartId && c.Product.ID == product.ID);

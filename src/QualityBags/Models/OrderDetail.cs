@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace QualityBags.Models
 {
@@ -12,6 +13,8 @@ namespace QualityBags.Models
         public int ID { get; set; }
         public int OrderID { get; set; }
         public int ProductID { get; set; }
+
+        [Display(Name = "Unit Price")]
         public decimal UnitPrice { get; set; }
         public int Quantity { get; set; }
 

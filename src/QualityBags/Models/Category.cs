@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace QualityBags.Models
 {
@@ -10,6 +11,8 @@ namespace QualityBags.Models
     {
         //Properties
         public int ID { get; set; }
+
+        [Display(Name = "Name")]
         public string CategoryName { get; set; }
         public string Description { get; set; }
 

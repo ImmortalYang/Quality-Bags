@@ -15,6 +15,8 @@ namespace QualityBags.Models
         /// </summary>
         public string CartID { get; set; }
         public int Count { get; set; }
+
+        [Display(Name = "Date Created")]
         public DateTime DateCreated { get; set; }
         public Product Product { get; set; }
     }
