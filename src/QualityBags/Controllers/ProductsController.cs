@@ -18,10 +18,10 @@ namespace QualityBags.Controllers
     [AllowAnonymous]
     public class ProductsController : Controller
     {
-        private readonly QualityBagsContext _context;
+        private readonly ApplicationDbContext _context;
         private readonly IHostingEnvironment _hostEnv;
 
-        public ProductsController(QualityBagsContext context, IHostingEnvironment hEnv)
+        public ProductsController(ApplicationDbContext context, IHostingEnvironment hEnv)
         {
             _context = context;
             _hostEnv = hEnv;  
@@ -181,7 +181,15 @@ namespace QualityBags.Controllers
         {
             var product = await _context.Products.SingleOrDefaultAsync(m => m.ID == id);
             _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch(DbUpdateException)
+            {
+                TempData["TutorialUsed"] = "The Tutorial being deleted has been used in previous orders.Delete those orders before trying again.";
+                return RedirectToAction("Delete");
+            }
             return RedirectToAction("Index");
         }
 

@@ -45,7 +45,8 @@
       "version": "1.0.0-preview2-final",
       "type": "build"
     },
-    "MailKit": "1.16.0"
+    "MailKit": "1.16.0",
+    "Microsoft.AspNetCore.Session": "1.0.0"
   },
 
   "tools": {

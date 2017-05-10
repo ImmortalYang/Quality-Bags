@@ -8,9 +8,10 @@ using QualityBags.Data;
 namespace QualityBags.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170509221835_MergeDbContexts")]
+    partial class MergeDbContexts
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -180,26 +181,6 @@ namespace QualityBags.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
-            modelBuilder.Entity("QualityBags.Models.CartItem", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("CartID");
-
-                    b.Property<int>("Count");
-
-                    b.Property<DateTime>("DateCreated");
-
-                    b.Property<int?>("ProductID");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("ProductID");
-
-                    b.ToTable("CartItem");
-                });
-
             modelBuilder.Entity("QualityBags.Models.Category", b =>
                 {
                     b.Property<int>("ID")
@@ -219,31 +200,19 @@ namespace QualityBags.Data.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Address");
+                    b.Property<string>("AppUserId");
 
-                    b.Property<string>("ApplicationUserId");
-
-                    b.Property<string>("City");
-
-                    b.Property<string>("Country");
+                    b.Property<int>("ApplicationUserId");
 
                     b.Property<decimal>("GST");
 
                     b.Property<decimal>("GrandTotal");
 
-                    b.Property<DateTime>("OrderDate");
-
-                    b.Property<string>("PhoneNumber");
-
-                    b.Property<string>("PostalCode");
-
-                    b.Property<string>("State");
-
                     b.Property<decimal>("Subtotal");
 
                     b.HasKey("ID");
 
-                    b.HasIndex("ApplicationUserId");
+                    b.HasIndex("AppUserId");
 
                     b.ToTable("Order");
                 });
@@ -258,6 +227,8 @@ namespace QualityBags.Data.Migrations
                     b.Property<int>("ProductID");
 
                     b.Property<int>("Quantity");
+
+                    b.Property<decimal>("TotalCost");
 
                     b.Property<decimal>("UnitPrice");
 
@@ -350,18 +321,11 @@ namespace QualityBags.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("QualityBags.Models.CartItem", b =>
-                {
-                    b.HasOne("QualityBags.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductID");
-                });
-
             modelBuilder.Entity("QualityBags.Models.Order", b =>
                 {
-                    b.HasOne("QualityBags.Models.ApplicationUser", "ApplicationUser")
+                    b.HasOne("QualityBags.Models.ApplicationUser", "AppUser")
                         .WithMany()
-                        .HasForeignKey("ApplicationUserId");
+                        .HasForeignKey("AppUserId");
                 });
 
             modelBuilder.Entity("QualityBags.Models.OrderDetail", b =>

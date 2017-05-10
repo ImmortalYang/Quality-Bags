@@ -47,8 +47,6 @@ namespace QualityBags
             services.AddApplicationInsightsTelemetry(Configuration);
 
             //Add database context services
-            services.AddDbContext<QualityBagsContext>(options => 
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDbContext<ApplicationDbContext>(options => 
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -63,18 +61,26 @@ namespace QualityBags
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
-        
+
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromMinutes(20);
+                options.CookieHttpOnly = true;
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public async void Configure(IApplicationBuilder app, 
             IHostingEnvironment env, 
             ILoggerFactory loggerFactory, 
-            QualityBagsContext context,
             ApplicationDbContext appContext,
             IServiceProvider serviceProvider,
             UserManager<ApplicationUser> userManager)
         {
+            app.UseSession();
+
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
@@ -108,7 +114,7 @@ namespace QualityBags
 
             await CreateRoles(serviceProvider);
             //Seed database with initial data
-            DbInitializer.Initialize(context);
+            DbInitializer.Initialize(appContext);
             //If user doesn't have a role, set the role to Member
             foreach (ApplicationUser user in appContext.Users.ToList())
             {

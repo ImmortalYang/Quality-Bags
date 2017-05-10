@@ -12,9 +12,9 @@ namespace QualityBags.Controllers
 {
     public class CategoriesController : Controller
     {
-        private readonly QualityBagsContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public CategoriesController(QualityBagsContext context)
+        public CategoriesController(ApplicationDbContext context)
         {
             _context = context;    
         }

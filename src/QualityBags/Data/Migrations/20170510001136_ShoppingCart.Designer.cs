@@ -8,9 +8,10 @@ using QualityBags.Data;
 namespace QualityBags.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170510001136_ShoppingCart")]
+    partial class ShoppingCart
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.1")
@@ -219,25 +220,13 @@ namespace QualityBags.Data.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Address");
-
                     b.Property<string>("ApplicationUserId");
-
-                    b.Property<string>("City");
-
-                    b.Property<string>("Country");
 
                     b.Property<decimal>("GST");
 
                     b.Property<decimal>("GrandTotal");
 
                     b.Property<DateTime>("OrderDate");
-
-                    b.Property<string>("PhoneNumber");
-
-                    b.Property<string>("PostalCode");
-
-                    b.Property<string>("State");
 
                     b.Property<decimal>("Subtotal");
 
