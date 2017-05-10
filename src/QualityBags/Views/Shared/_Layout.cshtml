@@ -42,6 +42,7 @@
                     {
                         
                         <li><a asp-area="" asp-controller="Suppliers" asp-action="Index">Suppliers</a></li>
+                        <li><a asp-area="" asp-controller="Orders" asp-action="Index">Orders</a></li>
                         <li><a asp-area="" asp-controller="AdminApplicationUsers" asp-action="Index">Members</a></li>
                     }
                 </ul>
@@ -53,7 +54,11 @@
         @RenderBody()
         <hr />
         <div>
-            @await Component.InvokeAsync("ShoppingCartViewModel")
+            @if (!User.IsInRole("Admin"))
+            {
+                //Admin cannot see the shopping cart
+                @await Component.InvokeAsync("ShoppingCartViewModel")
+            }
         </div>
 
         <footer>

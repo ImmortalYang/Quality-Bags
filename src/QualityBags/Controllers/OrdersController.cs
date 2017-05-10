@@ -9,9 +9,11 @@ using QualityBags.Data;
 using QualityBags.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Authorization;
 
 namespace QualityBags.Controllers
 {
+    [Authorize(Roles = ("Admin,Member"))]
     public class OrdersController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -24,6 +26,7 @@ namespace QualityBags.Controllers
         }
 
         // GET: Orders
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             var orders = _context.Orders
@@ -33,6 +36,7 @@ namespace QualityBags.Controllers
         }
 
         // GET: Orders/Create
+        [Authorize(Roles = "Member")]
         public async Task<IActionResult> Create()
         {
             var order = new Order();
@@ -53,6 +57,7 @@ namespace QualityBags.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Member")]
         public async Task<IActionResult> Create([Bind("PhoneNumber,Address,City,State,Country,PostalCode")] Order order)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -97,6 +102,7 @@ namespace QualityBags.Controllers
             return detail;
         }
 
+        [Authorize(Roles = "Member")]
         public async Task<IActionResult> Purchased(int? id)
         {
             if (id == null)
@@ -125,6 +131,7 @@ namespace QualityBags.Controllers
 
 
         // GET: Orders/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -150,6 +157,7 @@ namespace QualityBags.Controllers
         // POST: Orders/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var order = await _context.Orders

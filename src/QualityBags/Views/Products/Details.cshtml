@@ -15,10 +15,22 @@
             var errImg = Href("~/images/Error.png");
         }
         <dt>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ProductName)
+        </dd>
+        <dt>
             @Html.DisplayNameFor(model => model.Description)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Category.CategoryName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Category.CategoryName)
         </dd>
         <dt>
             Image
@@ -27,21 +39,37 @@
             <img class="product-image" src="@imgUrl"
                  alt="product image" onerror="this.onerror = null; this.src='@errImg'" />
         </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ProductName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ProductName)
-        </dd>
+        
         <dt>
             @Html.DisplayNameFor(model => model.UnitPrice)
         </dt>
         <dd>
             @Html.DisplayFor(model => model.UnitPrice)
         </dd>
+        @if (User.IsInRole("Admin"))
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.Supplier.SupplierName)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.Supplier.SupplierName)
+            </dd>
+        }
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    @if (User.IsInRole("Admin")) {
+    <a asp-action="Edit" asp-route-id="@Model.ID">Edit</a><span>&nbsp;|</span>
+    }
+    else
+    {
+        <a asp-action="AddToCart" asp-controller="ShoppingCart" asp-route-id="@Model.ID">
+            <span class="glyphicon glyphicon-shopping-cart"></span>
+            Add To Cart
+        </a><span>&nbsp;|</span>
+    }
+    <a asp-action="Index">
+        <span class="glyphicon glyphicon-backward"></span>
+        Back to List
+    </a>
 </div>

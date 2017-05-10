@@ -181,7 +181,15 @@ namespace QualityBags.Controllers
         {
             var product = await _context.Products.SingleOrDefaultAsync(m => m.ID == id);
             _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch(DbUpdateException)
+            {
+                TempData["TutorialUsed"] = "The Tutorial being deleted has been used in previous orders.Delete those orders before trying again.";
+                return RedirectToAction("Delete");
+            }
             return RedirectToAction("Index");
         }
 

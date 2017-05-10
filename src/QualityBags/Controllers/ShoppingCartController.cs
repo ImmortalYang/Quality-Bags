@@ -6,9 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using QualityBags.Data;
 using QualityBags.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace QualityBags.Controllers
 {
+    [AllowAnonymous]
+    [Authorize(Roles = "Member")]
     public class ShoppingCartController : Controller
     {
         ApplicationDbContext _context;
