@@ -36,6 +36,8 @@ namespace QualityBags.Data
             builder.Entity<CartItem>().ToTable("CartItem");
         }
 
+        public DbSet<ShoppingCart> ShoppingCart { get; set; }
+
         
     }
 }

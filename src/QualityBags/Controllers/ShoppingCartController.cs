@@ -42,7 +42,7 @@ namespace QualityBags.Controllers
 
         public async Task<IActionResult> RemoveFromCart(int id)
         {
-            var cart = ShoppingCart.GetCart(this.HttpContext);
+            var cart = ShoppingCart.GetCart(HttpContext);
             int itemCount = await cart.RemoveFromCart(id, _context);
             return Redirect(Request.Headers["Referer"].ToString());
         }

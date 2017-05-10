@@ -23,11 +23,11 @@
         <dd>@Html.DisplayFor(model => model.ApplicationUser.PhoneNumber)</dd>
 
         <dt>@Html.DisplayNameFor(model => model.Subtotal)</dt>
-        <dd>@Html.DisplayFor(model => model.Subtotal)</dd>
+        <dd>$@Html.DisplayFor(model => model.Subtotal)</dd>
         <dt>@Html.DisplayNameFor(model => model.GST)</dt>
-        <dd>@Html.DisplayFor(model => model.GST)</dd>
+        <dd>$@Html.DisplayFor(model => model.GST)</dd>
         <dt>@Html.DisplayNameFor(model => model.GrandTotal)</dt>
-        <dd>@Html.DisplayFor(model => model.GrandTotal)</dd>
+        <dd>$@Html.DisplayFor(model => model.GrandTotal)</dd>
 
         <dt>@Html.DisplayNameFor(model => model.OrderDate)</dt>
         <dd>@Html.DisplayFor(model => model.OrderDate)</dd>
@@ -48,13 +48,13 @@
                             @item.Product.ProductName
                         </td>
                         <td>
-                            @item.UnitPrice
+                            $@item.UnitPrice
                         </td>
                         <td>
                             @item.Quantity
                         </td>
                         <td>
-                            @(item.UnitPrice*item.Quantity)
+                            $@(item.UnitPrice*item.Quantity)
                         </td>
                     </tr>
                 }
@@ -65,7 +65,7 @@
                         <label>Total:</label>
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => Model.GrandTotal)
+                        $@Html.DisplayFor(modelItem => Model.GrandTotal)
                     </td>
                 </tr>
             </table>
