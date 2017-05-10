@@ -71,7 +71,10 @@
             else
             {
             <td>
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
+                <a asp-action="Details" asp-route-id="@item.ID">
+                    <span class="glyphicon glyphicon-list"></span>
+                    Details
+                </a> |
                 <a asp-action="AddToCart" asp-controller="ShoppingCart" asp-route-id="@item.ID">
                     <span class="glyphicon glyphicon-shopping-cart"></span>
                     Add To Cart
