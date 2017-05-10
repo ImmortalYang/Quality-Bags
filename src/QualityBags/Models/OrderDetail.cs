@@ -14,7 +14,6 @@ namespace QualityBags.Models
         public int ProductID { get; set; }
         public decimal UnitPrice { get; set; }
         public int Quantity { get; set; }
-        public decimal TotalCost { get; set; }
 
         //Navigation Properties
         public Product Product { get; set; }

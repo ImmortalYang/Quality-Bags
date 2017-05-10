@@ -10,13 +10,14 @@ namespace QualityBags.Models
     {
         //Properties
         public int ID { get; set; }
-        public int ApplicationUserId { get; set; }
+        public string ApplicationUserId { get; set; }
         public decimal Subtotal { get; set; }
         public decimal GST { get; set; }
         public decimal GrandTotal { get; set; }
+        public DateTime OrderDate { get; set; }
 
         //Navigation Properties
-        public ApplicationUser AppUser { get; set; }
+        public ApplicationUser ApplicationUser { get; set; }
         public ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }
