@@ -24,7 +24,8 @@ namespace QualityBags.Controllers
         // GET: Suppliers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Suppliers.ToListAsync());
+            return View(await _context.Suppliers
+                .AsNoTracking().ToListAsync());
         }
 
         // GET: Suppliers/Details/5
@@ -35,7 +36,9 @@ namespace QualityBags.Controllers
                 return NotFound();
             }
 
-            var supplier = await _context.Suppliers.SingleOrDefaultAsync(m => m.ID == id);
+            var supplier = await _context.Suppliers
+                .AsNoTracking()
+                .SingleOrDefaultAsync(m => m.ID == id);
             if (supplier == null)
             {
                 return NotFound();
@@ -74,7 +77,9 @@ namespace QualityBags.Controllers
                 return NotFound();
             }
 
-            var supplier = await _context.Suppliers.SingleOrDefaultAsync(m => m.ID == id);
+            var supplier = await _context.Suppliers
+                .AsNoTracking()
+                .SingleOrDefaultAsync(m => m.ID == id);
             if (supplier == null)
             {
                 return NotFound();
@@ -125,7 +130,9 @@ namespace QualityBags.Controllers
                 return NotFound();
             }
 
-            var supplier = await _context.Suppliers.SingleOrDefaultAsync(m => m.ID == id);
+            var supplier = await _context.Suppliers
+                .AsNoTracking()
+                .SingleOrDefaultAsync(m => m.ID == id);
             if (supplier == null)
             {
                 return NotFound();

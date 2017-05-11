@@ -30,10 +30,11 @@ namespace QualityBags.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            var qualityBagsContext = _context.Products
+            var products = _context.Products
                 .Include(p => p.Category)
-                .Include(p => p.Supplier);
-            return View(await qualityBagsContext.ToListAsync());
+                .Include(p => p.Supplier)
+                .AsNoTracking();
+            return View(await products.ToListAsync());
         }
 
         // GET: Products/Details/5
@@ -47,6 +48,7 @@ namespace QualityBags.Controllers
             var product = await _context.Products
                 .Include(p => p.Category)
                 .Include(p => p.Supplier)
+                .AsNoTracking()
                 .SingleOrDefaultAsync(p => p.ID == id);
             if (product == null)
             {
@@ -106,6 +108,7 @@ namespace QualityBags.Controllers
             var product = await _context.Products
                 .Include(p => p.Category)
                 .Include(p => p.Supplier)
+                .AsNoTracking()
                 .SingleOrDefaultAsync(m => m.ID == id);
             if (product == null)
             {
@@ -164,7 +167,9 @@ namespace QualityBags.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products.SingleOrDefaultAsync(m => m.ID == id);
+            var product = await _context.Products
+                .AsNoTracking()
+                .SingleOrDefaultAsync(m => m.ID == id);
             if (product == null)
             {
                 return NotFound();

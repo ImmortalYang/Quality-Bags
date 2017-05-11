@@ -150,6 +150,7 @@ namespace QualityBags.Controllers
             order.OrderDetails = await _context.OrderDetails
                 .Where(detail => detail.Order.ID == order.ID)
                 .Include(detail => detail.Product)
+                .AsNoTracking()
                 .ToListAsync();
             return View(order);
         }

@@ -24,7 +24,7 @@ namespace QualityBags.Controllers
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Categories.ToListAsync());
+            return View(await _context.Categories.AsNoTracking().ToListAsync());
         }
 
         // GET: Categories/Details/5
@@ -82,7 +82,9 @@ namespace QualityBags.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Categories.SingleOrDefaultAsync(m => m.ID == id);
+            var category = await _context.Categories
+                .AsNoTracking()
+                .SingleOrDefaultAsync(m => m.ID == id);
             if (category == null)
             {
                 return NotFound();
@@ -135,7 +137,9 @@ namespace QualityBags.Controllers
                 return NotFound();
             }
 
-            var category = await _context.Categories.SingleOrDefaultAsync(m => m.ID == id);
+            var category = await _context.Categories
+                .AsNoTracking()
+                .SingleOrDefaultAsync(m => m.ID == id);
             if (category == null)
             {
                 return NotFound();
@@ -150,7 +154,9 @@ namespace QualityBags.Controllers
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var category = await _context.Categories.SingleOrDefaultAsync(m => m.ID == id);
+            var category = await _context.Categories
+                .AsNoTracking()
+                .SingleOrDefaultAsync(m => m.ID == id);
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
