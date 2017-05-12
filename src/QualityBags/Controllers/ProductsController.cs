@@ -72,7 +72,7 @@ namespace QualityBags.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create([Bind("ID,CategoryID,Description,ProductName,SupplierID,UnitPrice")] Product product, 
+        public async Task<IActionResult> Create([Bind("CategoryID,Description,ProductName,SupplierID,UnitPrice")] Product product, 
             IList<IFormFile> imgFiles)
         {
             
@@ -160,7 +160,7 @@ namespace QualityBags.Controllers
 
         // GET: Products/Delete/5
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id, bool? saveChangesError = false)
         {
             if (id == null)
             {
@@ -173,6 +173,13 @@ namespace QualityBags.Controllers
             if (product == null)
             {
                 return NotFound();
+            }
+
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewData["ErrorMessage"] =
+                "Delete failed. Try again, and if the problem persists " +
+                "see your system administrator.";
             }
 
             return View(product);
@@ -192,8 +199,7 @@ namespace QualityBags.Controllers
             }
             catch(DbUpdateException)
             {
-                TempData["TutorialUsed"] = "The Tutorial being deleted has been used in previous orders.Delete those orders before trying again.";
-                return RedirectToAction("Delete");
+                return RedirectToAction("Delete", new { id = id, saveChangesError = true });
             }
             return RedirectToAction("Index");
         }

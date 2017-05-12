@@ -92,7 +92,7 @@ namespace QualityBags.Models
         /// Remove all the cart items within the shopping cart in the current session asynchronously.
         /// </summary>
         /// <param name="appContext"></param>
-        public async void EmptyCart(ApplicationDbContext appContext)
+        public async Task EmptyCart(ApplicationDbContext appContext)
         {
             var cartItems = appContext.CartItems
                 .Where(cart => cart.CartID == ShoppingCartId);

@@ -27,6 +27,7 @@ namespace QualityBags.Controllers
             return View(cart);
         }
 
+        // GET: ShoppingCart/AddToCart/5
         public async Task<IActionResult> AddToCart(int id)
         {
             // Retrieve the product from the database
@@ -39,15 +40,30 @@ namespace QualityBags.Controllers
             // Add it to the shopping cart
             var cart = ShoppingCart.GetCart(HttpContext);
             await cart.AddToCart(productToAdd, _context);
-            // Go back to the main products page for more shopping
-            return RedirectToAction("Index", "Products");
+            
+            //return view component for ajax callback to update shopping cart
+            return ViewComponent("ShoppingCartViewModel");
         }
 
+        // GET: ShoppingCart/RemoveFromCart/5
         public async Task<IActionResult> RemoveFromCart(int id)
         {
             var cart = ShoppingCart.GetCart(HttpContext);
             int itemCount = await cart.RemoveFromCart(id, _context);
-            return Redirect(Request.Headers["Referer"].ToString());
+            //return Redirect(Request.Headers["Referer"].ToString());
+
+            ////return view component for ajax callback to update shopping cart
+            return ViewComponent("ShoppingCartViewModel");
+        }
+
+        // GET: ShoppingCart/EmptyCart
+        public async Task<IActionResult> EmptyCart()
+        {
+            var cart = ShoppingCart.GetCart(HttpContext);
+            await cart.EmptyCart(_context);
+
+            //return view component for ajax callback to update shopping cart
+            return ViewComponent("ShoppingCartViewModel");
         }
 
     }

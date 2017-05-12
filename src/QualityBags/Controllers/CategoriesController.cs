@@ -24,7 +24,9 @@ namespace QualityBags.Controllers
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Categories.AsNoTracking().ToListAsync());
+            return View(await _context.Categories
+                .AsNoTracking()
+                .ToListAsync());
         }
 
         // GET: Categories/Details/5
@@ -62,7 +64,7 @@ namespace QualityBags.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Create([Bind("ID,CategoryName,Description")] Category category)
+        public async Task<IActionResult> Create([Bind("CategoryName,Description")] Category category)
         {
             if (ModelState.IsValid)
             {
@@ -155,7 +157,6 @@ namespace QualityBags.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var category = await _context.Categories
-                .AsNoTracking()
                 .SingleOrDefaultAsync(m => m.ID == id);
             _context.Categories.Remove(category);
             await _context.SaveChangesAsync();

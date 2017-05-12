@@ -25,7 +25,11 @@
 
             <div class="col-sm-2"><a asp-controller="Products" asp-action="Details" asp-route-id="@item.Product.ID">@item.Product.ProductName</a> </div>
 
-            <div class="col-sm-2">@item.Count<a asp-action="RemoveFromCart" asp-controller="ShoppingCart" asp-route-id="@item.Product.ID"><span class="glyphicon glyphicon-remove-circle"></span></a></div>
+            <div class="col-sm-2">@item.Count&nbsp;&nbsp;
+                <a class="remove-from-cart" data-product-id="@item.Product.ID">
+                    <span class="glyphicon glyphicon-remove-circle"></span>
+                </a>
+            </div>
 
             <div class="col-sm-2">$@item.Product.UnitPrice</div>
         </div>
@@ -41,10 +45,16 @@
 
     @if (@Model.CartItems.Count > 0)
     {
+        <br />
         <div class="row">
-            <div class="col-sm-offset-4">
-                <a asp-action="Create" asp-controller="Orders">
+            <div class="col-sm-2 col-sm-offset-2">
+                <a asp-action="Create" asp-controller="Orders" class="btn btn-success">
                     Proceed To Checkout <span class="glyphicon glyphicon-step-forward"></span>
+                </a>
+            </div>
+            <div class="col-sm-2">
+                <a class="empty-cart btn btn-danger">
+                    Empty Cart <span class="glyphicon glyphicon-erase"></span>
                 </a>
             </div>
         </div>

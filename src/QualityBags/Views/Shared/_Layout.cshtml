@@ -53,7 +53,7 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <div>
+        <div id="shopping-cart">
             @if (!User.IsInRole("Admin"))
             {
                 //Admin cannot see the shopping cart
