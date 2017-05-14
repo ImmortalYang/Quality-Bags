@@ -1,0 +1,29 @@
+﻿.navbar{
+    background: @bkgColor;
+    .navbar-header{
+        /*Logo image hover effect*/
+        .navbar-brand{
+            transition: transform 0.5s ease-out;
+
+            &:hover{
+                transform: scale(1.5);
+            }
+        }
+    }
+
+    .navbar-collapse{
+        /*ul*/
+        .navbar-nav{
+            li{  
+                transition: all 0.5s ease-out;
+                a{
+                    color: @brandColor;
+                }
+                &:hover{
+                    background: @accentColor;
+                    
+                }
+            }
+        }
+    }
+}

@@ -7,7 +7,8 @@
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
+        <!--<link rel="stylesheet" href="~/css/site.css" />-->
+        <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
     </environment>
     <environment names="Staging,Production">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.6/css/bootstrap.min.css"
@@ -53,9 +54,10 @@
         </div>
     </div>
     <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <div id="shopping-cart">
+        <div class="page-section">
+            @RenderBody()
+        </div>
+        <div class="page-section" id="shopping-cart">
             @if (!User.IsInRole("Admin"))
             {
                 //Admin cannot see the shopping cart
@@ -63,7 +65,7 @@
             }
         </div>
 
-        <footer>
+        <footer class="footer">
             <p>&copy; 2017 - Quality Bags</p>
         </footer>
     </div>

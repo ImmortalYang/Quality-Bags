@@ -1,0 +1,23 @@
+﻿.clearfix {
+  display: block;
+  zoom: 1;
+
+  &::after {
+    content: " ";
+    display: block;
+    font-size: 0;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+  }
+}
+
+/*Set the parent position to non-static first
+    Otherwise this rule has no effects
+*/
+.centerPosition{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
