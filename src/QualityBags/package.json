@@ -6,6 +6,10 @@
     "gulp": "^3.9.1",
     "gulp-watch": "4.3.11",
     "gulp-less": "3.3.0",
+    "autoprefixer": "7.0.1",
     "browser-sync": "2.18.8"
+  },
+  "dependencies": {
+    "font-awesome": "4.7.0"
   }
 }

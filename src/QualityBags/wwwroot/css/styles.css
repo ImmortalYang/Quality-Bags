@@ -21,8 +21,7 @@
 }
 body {
   background-color: #fff;
-  padding-top: 50px;
-  padding-bottom: 20px;
+  padding-top: 71px;
 }
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
@@ -68,17 +67,25 @@ textarea {
   height: auto;
   margin-bottom: 5px;
 }
+.container {
+  position: relative;
+  padding-bottom: 5rem;
+}
 .navbar {
-  background: #fff;
+  background: #8AA9A9;
+  height: 71px;
 }
 .navbar .navbar-header {
   /*Logo image hover effect*/
 }
 .navbar .navbar-header .navbar-brand {
+  padding-top: 0;
   transition: transform 0.5s ease-out;
+  transform-origin: 50% 50%;
+  z-index: 10;
 }
 .navbar .navbar-header .navbar-brand:hover {
-  transform: scale(1.5);
+  transform: rotate(-30deg);
 }
 .navbar .navbar-collapse {
   /*ul*/
@@ -87,14 +94,36 @@ textarea {
   transition: all 0.5s ease-out;
 }
 .navbar .navbar-collapse .navbar-nav li a {
-  color: #B1E6E6;
+  color: #fff;
+  font-weight: 700;
 }
 .navbar .navbar-collapse .navbar-nav li:hover {
-  background: #8AA9A9;
+  background: #B1E6E6;
+}
+.page-section {
+  padding: 2rem 0;
+  border-bottom: 5px solid #8AA9A9;
 }
 .page-section h1,
 .page-section h2 {
   color: #B1E6E6;
+}
+.page-section:first-of-type {
+  padding-top: 0;
+}
+.page-section:last-of-type {
+  border-bottom: none;
+}
+.footer {
+  background: #8AA9A9;
+  color: #fff;
+  font-weight: 500;
+  padding: 1rem;
+  position: absolute;
+  height: 5rem;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 /*Add transition and box-shadow effect to boostrap btn class*/
 .btn {
