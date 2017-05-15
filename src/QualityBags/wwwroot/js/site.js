@@ -22,8 +22,10 @@ function readURL(input) {
     }
 }
 
-function addClickEventListenerToAddToCartBtns(){
-    $(".add-to-cart").click(function () {
+function addClickEventListenerToAddToCartBtns() {
+    $(".add-to-cart")
+        .off("click")
+        .click(function () {
         //Ajax call AddToCart action in ShoppingCart controller
         $.get("/ShoppingCart/AddToCart/" + $(this).data("product-id"), function (data) {
             //update returned shopping cart view component in the container
@@ -33,7 +35,9 @@ function addClickEventListenerToAddToCartBtns(){
 }
 
 function addClickEventListenerToRemoveFromCartBtns() {
-    $(".remove-from-cart").click(function () {
+    $(".remove-from-cart")
+        .off("click")
+        .click(function () {
         //Ajax call RemoveFromCart action in ShoppingCart controller
         $.get("/ShoppingCart/RemoveFromCart/" + $(this).data("product-id"), function (data) {
             //update returned shopping cart view component in the container
@@ -43,7 +47,9 @@ function addClickEventListenerToRemoveFromCartBtns() {
 }
 
 function addClickEventListenerToEmptyCartBtn() {
-    $(".empty-cart").click(function () {
+    $(".empty-cart")
+        .off("click")
+        .click(function () {
         //Confirm dialog
         if (false == confirm("Are you sure you want to delete all the items in the shopping cart?")) {
             return;
@@ -58,6 +64,7 @@ function addClickEventListenerToEmptyCartBtn() {
 
 function refreshShoppingCart(data) {
     $("#shopping-cart").html(data);
+    addClickEventListenerToAddToCartBtns();
     addClickEventListenerToRemoveFromCartBtns();
     addClickEventListenerToEmptyCartBtn();
 }

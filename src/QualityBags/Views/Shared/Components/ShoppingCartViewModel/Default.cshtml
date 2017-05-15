@@ -3,19 +3,18 @@
 @{
     ViewData["Title"] = "Default";
 }
+<div>
+    <h2><span class="glyphicon glyphicon glyphicon-shopping-cart"></span></h2>
 
-<h2><span class="glyphicon glyphicon glyphicon-shopping-cart"></span></h2>
-
-<div class="container">
     <div class="row">
-        <div class="col-sm-2">
-            <h4 class="display-4">Product</h4>
+        <div class="col-xs-4">
+            <h4 class="display-4">Item</h4>
         </div>
-        <div class="col-sm-2">
+        <div class="col-xs-4">
             <h4 class="display-4">Quantity</h4>
         </div>
-        <div class="col-sm-2">
-            <h4 class="display-4">Unit Price</h4>
+        <div class="col-xs-4">
+            <h4 class="display-4">Price</h4>
         </div>
     </div>
 
@@ -23,44 +22,53 @@
     {
         <div class="row">
 
-            <div class="col-sm-2"><a asp-controller="Products" asp-action="Details" asp-route-id="@item.Product.ID">@item.Product.ProductName</a> </div>
+            <div class="col-xs-4"><a asp-controller="Products" asp-action="Details" asp-route-id="@item.Product.ID">@item.Product.ProductName</a> </div>
 
-            <div class="col-sm-2">@item.Count&nbsp;&nbsp;
-                <a class="remove-from-cart" data-product-id="@item.Product.ID">
-                    <span class="glyphicon glyphicon-remove-circle"></span>
-                </a>
-            </div>
-
-            <div class="col-sm-2">$@item.Product.UnitPrice</div>
+            <div class="col-xs-4">
+                @item.Count&nbsp;&nbsp;
+            <a class="add-to-cart" data-product-id="@item.Product.ID">
+                <span class="glyphicon glyphicon-plus-sign"></span>
+            </a>
+            <a class="remove-from-cart" data-product-id="@item.Product.ID">
+                <span class="glyphicon glyphicon-minus-sign"></span>
+            </a>
         </div>
+
+        <div class="col-xs-4">$@(item.Product.UnitPrice * item.Count)</div>
+    </div>
     }
-
+    <hr />
     <div class="row">
-        <div class="col-sm-2"></div>
-        <div class="col-sm-2">Grand Total:</div>
+        <div class="col-xs-4"></div>
+        <div class="col-xs-4">Total:</div>
 
-        <div class="col-sm-2">$@Model.CartTotal</div>
+        <div class="col-xs-4">$@Model.CartTotal</div>
 
     </div>
 
-    @if (@Model.CartItems.Count > 0)
-    {
-        <br />
-        <div class="row">
-            <div class="col-sm-2 col-sm-offset-2">
-                <a asp-action="Create" asp-controller="Orders" class="btn btn-action">
-                    Proceed To Checkout <span class="glyphicon glyphicon-step-forward"></span>
+    <hr />
+    <div class="row">
+        @if (@Model.CartItems.Count > 0)
+        {
+
+            <div class="col-xs-6 col-xs-offset-6">
+                <a asp-action="Create" asp-controller="Orders" class="btn btn-action btn-block">
+                    Checkout <span class="glyphicon glyphicon-step-forward"></span>
+                </a>
+                <a class="empty-cart btn btn-danger btn-block">
+                    Empty <span class="glyphicon glyphicon-erase"></span>
                 </a>
             </div>
-            <div class="col-sm-2">
-                <a class="empty-cart btn btn-danger">
-                    Empty Cart <span class="glyphicon glyphicon-erase"></span>
+
+        }
+        else
+        {
+            <div class="col-xs-offset-6">
+                <a asp-action="Index" asp-controller="Products" class="btn btn-action">
+                    Go Shopping <span class="glyphicon glyphicon-step-forward"></span>
                 </a>
             </div>
-        </div>
-
-    }
-
-
+        }
+    </div><!-- /row -->
 
 </div>

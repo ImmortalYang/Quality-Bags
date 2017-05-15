@@ -54,19 +54,37 @@
         </div>
     </div>
     <div class="container body-content">
-        <div class="page-section">
-            @RenderBody()
-        </div>
-        <div class="page-section" id="shopping-cart">
-            @if (!User.IsInRole("Admin"))
-            {
-                //Admin cannot see the shopping cart
-                @await Component.InvokeAsync("ShoppingCartViewModel")
-            }
-        </div>
+        @if (!User.IsInRole("Admin"))
+        {
+            <div class="row flex-row">
+                <div class="page-section col-lg-9">
+                    @RenderBody()
+                </div>
+                <!--Admin cannot see the shopping cart-->
+                <div class="page-section sidebar col-lg-3" id="shopping-cart">
+                    @await Component.InvokeAsync("ShoppingCartViewModel")
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="page-section">
+                @RenderBody()
+            </div>
+        }
 
         <footer class="footer">
-            <p>&copy; 2017 - Quality Bags</p>
+            <div class="row">
+                <div class="col-md-4">
+                    <p>&copy; 2017 - Quality Bags</p>
+                </div>
+                <div class="col-md-4">
+                    <a>Terms and Conditions</a>
+                </div>
+                <div class="col-md-4">
+                    <a>FAQ</a>
+                </div>
+            </div>
         </footer>
     </div>
 

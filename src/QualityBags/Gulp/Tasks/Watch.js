@@ -5,7 +5,9 @@ var browserSync = require("browser-sync").create();
 gulp.task("watch", function () {
     browserSync.init({
         notify: true,
-        proxy: "http://localhost:57009"
+        proxy: "http://localhost:57009",
+        files: ["./**/*.cshtml", "./**/*.cs"],
+        watchEvents: ["add", "change", "addDir"]
     });
 
     watch("./wwwroot/css/**/*.less", function () {

@@ -1,24 +1,7 @@
-.clearfix {
-  display: block;
-  zoom: 1;
-}
-.clearfix::after {
-  content: " ";
-  display: block;
-  font-size: 0;
-  height: 0;
-  clear: both;
-  visibility: hidden;
-}
 /*Set the parent position to non-static first
     Otherwise this rule has no effects
 */
-.centerPosition {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
+/*Text border effect*/
 body {
   background-color: #fff;
   padding-top: 71px;
@@ -90,6 +73,9 @@ textarea {
 .navbar .navbar-collapse {
   /*ul*/
 }
+.navbar .navbar-collapse .navbar-nav {
+  background: #8AA9A9;
+}
 .navbar .navbar-collapse .navbar-nav li {
   transition: all 0.5s ease-out;
 }
@@ -101,18 +87,23 @@ textarea {
   background: #B1E6E6;
 }
 .page-section {
-  padding: 2rem 0;
-  border-bottom: 5px solid #8AA9A9;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
 }
 .page-section h1,
 .page-section h2 {
   color: #B1E6E6;
+  text-shadow: -1px 0 #8AA9A9, 1px 0 #8AA9A9, 0 1px #8AA9A9, 0 -1px #8AA9A9;
+}
+.page-section h3,
+.page-section h4 {
+  color: #8AA9A9;
 }
 .page-section:first-of-type {
   padding-top: 0;
 }
-.page-section:last-of-type {
-  border-bottom: none;
+.sidebar {
+  background: #ddd;
 }
 .footer {
   background: #8AA9A9;
@@ -124,11 +115,20 @@ textarea {
   bottom: 0;
   left: 0;
   right: 0;
+  text-align: center;
+}
+.footer a {
+  color: #fff;
+  font-weight: 500;
+}
+.flex-row {
+  display: flex;
 }
 /*Add transition and box-shadow effect to boostrap btn class*/
 .btn {
   transition: all 0.6s ease-out;
   box-shadow: #A98B79 3px 3px 3px;
+  margin: 0.5rem;
 }
 .btn:hover {
   box-shadow: none;
@@ -138,7 +138,16 @@ textarea {
   background-color: #B1E6E6;
   transition: all 0.6s ease-out;
   box-shadow: #A98B79 3px 3px 3px;
+  margin: 0.5rem;
 }
 .btn-action:hover {
+  box-shadow: none;
+}
+.card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  text-align: center;
+  transition: 0.5s ease-out;
+}
+.card:hover {
   box-shadow: none;
 }
