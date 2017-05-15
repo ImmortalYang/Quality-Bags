@@ -2,86 +2,51 @@
 
 @{
     ViewData["Title"] = "Products";
+    bool rowClosed = false;
 }
 
 <h2>Products</h2>
 
-@if (User.IsInRole("Admin"))
+@for (int i = 0; i < Model.Count(); i++)
 {
-    <p><a asp-action="Create">Create New</a></p>
-}
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                Image
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ProductName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UnitPrice)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Category)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Supplier)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model)
-{
-        var imgUrl = Href("~" + item.ImagePath);
-        var errImg = Href("~/images/Error.png");
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                <img class="product-image" 
-                     src="@imgUrl" alt="Product Image" 
+    var item = Model.ElementAt(i);
+    var imgUrl = Href("~" + item.ImagePath);
+    var errImg = Href("~/images/Error.png");
+    if (i % 3 == 0)
+    {
+        @:<div class="row">
+        rowClosed = false;
+    }
+        <div class="col-md-4">
+            <div class="card">
+                <img class="card-image"
+                     src="@imgUrl" alt="Product Image"
                      onerror="this.onerror = null; this.src = '@errImg'">
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ProductName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.UnitPrice)
-            </td>
-            <td>
-                @item.Category.CategoryName
-            </td>
-            <td>
-                @item.Supplier.SupplierName
-            </td>
-            @if (User.IsInRole("Admin"))
-            {
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
-            </td>
-            }
-            else
-            {
-            <td>
-                <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-default">
-                    <span class="glyphicon glyphicon-list"></span>
-                    Details
-                </a>
-                <a class="add-to-cart btn btn-action" data-product-id="@item.ID">
-                    <span class="glyphicon glyphicon-shopping-cart"></span>
-                    Add To Cart
-                </a>
-            </td>
-            }
-        </tr>
+
+                <div>
+                    <p>@item.ProductName</p>
+                    <p>$@item.UnitPrice</p>
+                    <p>@item.Category.CategoryName</p>
+                    <div>
+                        <a asp-action="Details" asp-route-id="@item.ID" class="btn btn-default">
+                            <span class="glyphicon glyphicon-list"></span>
+                            Details
+                        </a>
+                        <a class="add-to-cart btn btn-action" data-product-id="@item.ID">
+                            <span class="glyphicon glyphicon-shopping-cart"></span>
+                            Add To Cart
+                        </a>
+                    </div>
+                </div>
+            </div><!-- card -->
+        </div><!-- col -->
+    @if(i % 3 == 2)
+    {
+        @:</div><!-- /row -->
+        rowClosed = true;
+    }
 }
-    </tbody>
-</table>
+@if (!rowClosed)
+{
+    @:</div><!-- /row -->
+}

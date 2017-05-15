@@ -4,13 +4,14 @@
 /*Text border effect*/
 body {
   background-color: #fff;
-  padding-top: 71px;
 }
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
   padding-left: 15px;
   padding-right: 15px;
+  padding-top: 71px;
+  min-height: 100vh;
 }
 /* Set widths on the form inputs since otherwise they're 100% wide */
 input,
@@ -121,8 +122,11 @@ textarea {
   color: #fff;
   font-weight: 500;
 }
-.flex-row {
-  display: flex;
+@media (min-width: 1200px) {
+  .flex-row {
+    display: flex;
+    min-height: calc(100vh - 71px - 5rem);
+  }
 }
 /*Add transition and box-shadow effect to boostrap btn class*/
 .btn {
@@ -147,7 +151,14 @@ textarea {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   text-align: center;
   transition: 0.5s ease-out;
+  padding-bottom: 1rem;
+  margin: 1rem auto;
 }
 .card:hover {
   box-shadow: none;
+}
+.card-image {
+  width: 100%;
+  height: auto;
+  margin-bottom: 1rem;
 }

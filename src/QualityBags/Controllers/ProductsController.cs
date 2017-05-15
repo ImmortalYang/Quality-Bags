@@ -30,11 +30,19 @@ namespace QualityBags.Controllers
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            var products = _context.Products
+            var products = await _context.Products
                 .Include(p => p.Category)
                 .Include(p => p.Supplier)
-                .AsNoTracking();
-            return View(await products.ToListAsync());
+                .AsNoTracking()
+                .ToListAsync();
+            if (User.IsInRole("Admin"))
+            {
+                return View("AdminIndex", products);
+            }
+            else
+            {
+                return View(products);
+            }
         }
 
         // GET: Products/Details/5
