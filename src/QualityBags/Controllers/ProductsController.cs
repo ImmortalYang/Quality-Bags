@@ -139,9 +139,16 @@ namespace QualityBags.Controllers
             {
                 return NotFound();
             }
+            
             var productToUpdate = await _context.Products
                 .SingleOrDefaultAsync(p => p.ID == id);
-            productToUpdate.ImagePath = await GetPathOfFile(imgFiles);
+            if (!(imgFiles.Count < 1 && productToUpdate.ImagePath != ""))
+            {
+                //if admin didn't upload any new file and old file already exists
+                //then do not update image path
+                productToUpdate.ImagePath = await GetPathOfFile(imgFiles);
+            } 
+            
             if(await TryUpdateModelAsync(
                 productToUpdate, "", 
                 p => p.CategoryID, p => p.SupplierID, p => p.ImagePath, 

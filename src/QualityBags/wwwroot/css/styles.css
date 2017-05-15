@@ -153,12 +153,19 @@ textarea {
   transition: 0.5s ease-out;
   padding-bottom: 1rem;
   margin: 1rem auto;
+  border: solid 1px #fff;
 }
 .card:hover {
   box-shadow: none;
+  border: solid 1px #8AA9A9;
 }
 .card-image {
   width: 100%;
   height: auto;
   margin-bottom: 1rem;
+}
+@media (min-width: 992px) {
+  .card-image {
+    height: 250px;
+  }
 }
