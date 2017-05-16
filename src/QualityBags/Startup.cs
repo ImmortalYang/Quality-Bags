@@ -72,15 +72,15 @@ namespace QualityBags
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public async void Configure(IApplicationBuilder app, 
-            IHostingEnvironment env, 
-            ILoggerFactory loggerFactory, 
+        public async void Configure(IApplicationBuilder app,
+            IHostingEnvironment env,
+            ILoggerFactory loggerFactory,
             ApplicationDbContext appContext,
             IServiceProvider serviceProvider,
             UserManager<ApplicationUser> userManager)
         {
             app.UseSession();
-
+            
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 

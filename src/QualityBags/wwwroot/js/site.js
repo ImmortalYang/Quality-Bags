@@ -51,7 +51,7 @@ function addClickEventListenerToEmptyCartBtn() {
         .off("click")
         .click(function () {
         //Confirm dialog
-        if (false == confirm("Are you sure you want to delete all the items in the shopping cart?")) {
+        if (false === confirm("Are you sure you want to delete all the items in the shopping cart?")) {
             return;
         }
         //Ajax call EmptyCart action in ShoppingCart controller

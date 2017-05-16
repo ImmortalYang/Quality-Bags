@@ -142,10 +142,12 @@ namespace QualityBags.Controllers
             
             var productToUpdate = await _context.Products
                 .SingleOrDefaultAsync(p => p.ID == id);
+            //if admin didn't upload any new file and old file already exists
+            //then do not update image path
             if (!(imgFiles.Count < 1 && productToUpdate.ImagePath != ""))
             {
-                //if admin didn't upload any new file and old file already exists
-                //then do not update image path
+                //Delete old image
+                System.IO.File.Delete(_hostEnv.WebRootPath + productToUpdate.ImagePath);
                 productToUpdate.ImagePath = await GetPathOfFile(imgFiles);
             } 
             
@@ -193,7 +195,9 @@ namespace QualityBags.Controllers
             if (saveChangesError.GetValueOrDefault())
             {
                 ViewData["ErrorMessage"] =
-                "Delete failed. Try again, and if the problem persists " +
+                "Delete failed. " +
+                "Please delete the cart items and order details that are related to this product first. " + 
+                "Try again, and if the problem persists " +
                 "see your system administrator.";
             }
 
@@ -207,15 +211,19 @@ namespace QualityBags.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var product = await _context.Products.SingleOrDefaultAsync(m => m.ID == id);
+            var imgPath = _hostEnv.WebRootPath + product.ImagePath;
+            
             _context.Products.Remove(product);
             try
             {
                 await _context.SaveChangesAsync();
             }
-            catch(DbUpdateException)
+            catch(DbUpdateException ex)
             {
                 return RedirectToAction("Delete", new { id = id, saveChangesError = true });
             }
+            //Delete product image
+            System.IO.File.Delete(imgPath);
             return RedirectToAction("Index");
         }
 

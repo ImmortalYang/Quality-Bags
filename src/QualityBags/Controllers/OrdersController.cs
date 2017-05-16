@@ -125,7 +125,7 @@ namespace QualityBags.Controllers
                 .ToListAsync();
 
             order.OrderDetails = details;
-            ShoppingCart.GetCart(HttpContext).EmptyCart(_context);
+            await ShoppingCart.GetCart(HttpContext).EmptyCart(_context);
             return View(order);
         }
 
