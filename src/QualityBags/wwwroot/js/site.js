@@ -73,6 +73,9 @@ function refreshShoppingCart(data) {
 
 //Initialize google map
 function initializeMap() {
+    if ($("#map")[0] === undefined) {
+        return;
+    }
     var coordinate = new google.maps.LatLng(-36.880851, 174.709545);
     var mapCanvas = document.getElementById('map');
     var mapOptions = {

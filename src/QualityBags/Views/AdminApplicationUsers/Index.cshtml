@@ -63,7 +63,8 @@
                 else
                 {
                     <a asp-action="EnableDisable" asp-route-userId="@item.Id">Enable</a>
-                }
+                } | 
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }

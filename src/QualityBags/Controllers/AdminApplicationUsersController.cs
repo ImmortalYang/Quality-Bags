@@ -46,6 +46,62 @@ namespace QualityBags.Controllers
             return View(member);
         }
 
+        // GET: AdminApplicationUsers/Delete/1
+        public async Task<IActionResult> Delete(string id, bool? saveChangesError = false)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+            var member = await _context.ApplicationUser
+                .Include(m => m.Orders)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(m => m.Id == id);
+            if (member == null)
+            {
+                return NotFound();
+            }
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewData["ErrorMessage"] =
+                    "Delete failed. " +
+                    "Please make sure member is disabled " +
+                    "and has no orders. " +
+                    "If problem persists, please contact administrator. ";
+            }
+            return View(member);
+        }
+
+        // POST: AdminApplicationUsers/Delete/5
+        [ValidateAntiForgeryToken]
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed(string id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+            var member = await _context.ApplicationUser
+                .SingleOrDefaultAsync(m => m.Id == id);
+            if (member.Enabled)
+            {
+                return RedirectToAction("Delete",
+                    new { id = id, saveChangesError = true });
+            }
+            _context.Remove(member);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                return RedirectToAction("Delete", 
+                    new { id = id, saveChangesError = true });
+            }
+
+            return RedirectToAction("Index");
+        }
+
         /// <summary>
         /// Return all member users from database
         /// </summary>
