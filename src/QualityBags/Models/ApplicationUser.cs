@@ -15,13 +15,14 @@ namespace QualityBags.Models
 
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
-
+        
         public string Address { get; set; }
 
         [Display(Name = "Phone Number")]
-        [DataType(DataType.PhoneNumber, ErrorMessage = "Please enter a valid phone number.")]
+        [DataType(DataType.PhoneNumber)]
         public override string PhoneNumber { get; set; }
 
         public bool Enabled { get; set; }
+        public ICollection<Order> Orders { get; set; }
     }
 }

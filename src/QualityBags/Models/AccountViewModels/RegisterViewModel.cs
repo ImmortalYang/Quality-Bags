@@ -39,6 +39,7 @@ namespace QualityBags.Models.AccountViewModels
         public string LastName { get; set; }
 
         [Display(Name = "Contact Number")]
+        [Phone(ErrorMessage = "Please enter a valid phone number.")]
         [DataType(DataType.PhoneNumber)]
         public string ContactNumber { get; set; }
 

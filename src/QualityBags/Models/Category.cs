@@ -12,6 +12,7 @@ namespace QualityBags.Models
         //Properties
         public int ID { get; set; }
 
+        [Required]
         [Display(Name = "Category Name")]
         public string CategoryName { get; set; }
         public string Description { get; set; }

@@ -12,13 +12,18 @@ namespace QualityBags.Models
         //Properties
         public int ID { get; set; }
 
-        [Display(Name = "Name")]
+        [Required]
+        [Display(Name = "Supplier Name")]
         public string SupplierName { get; set; }
 
+        [Required]
         [Display(Name = "Contact Number")]
+        [DataType(DataType.PhoneNumber)]
+        [Phone]
         public int ContactNumber { get; set; }
 
         [Display(Name = "Email Address")]
+        [EmailAddress]
         public string EmailAddress { get; set; }
 
         //Navigation Properties

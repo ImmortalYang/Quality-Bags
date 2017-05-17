@@ -55,6 +55,7 @@
             </td>
             
             <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> | 
                 @if (item.Enabled)
                 {
                     <a asp-action="EnableDisable" asp-route-userId="@item.Id">Disable</a>

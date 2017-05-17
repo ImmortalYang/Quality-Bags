@@ -28,6 +28,24 @@ namespace QualityBags.Controllers
             return View(await ReturnAllMembers());
         }
 
+        // GET: AdminApplicationUsers/Details/1
+        public async Task<IActionResult> Details(string id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+            var member = await _context.ApplicationUser
+                .Include(m => m.Orders)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(m => m.Id == id);
+            if(member == null)
+            {
+                return NotFound();
+            }
+            return View(member);
+        }
+
         /// <summary>
         /// Return all member users from database
         /// </summary>
