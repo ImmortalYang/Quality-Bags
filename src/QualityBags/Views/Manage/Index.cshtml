@@ -7,17 +7,29 @@
 <p class="text-success">@ViewData["StatusMessage"]</p>
 
 <div>
-    <h4>Change your account settings</h4>
+    <h4>Your account details</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            First Name:
+            @Html.DisplayNameFor(model => model.UserName):
+        </dt>
+        <dd>
+            @Model.UserName
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.EmailAddress):
+        </dt>
+        <dd>
+            @Model.EmailAddress
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName):
         </dt>
         <dd>
             @Model.FirstName
         </dd>
         <dt>
-            Last Name:
+            @Html.DisplayNameFor(model => model.LastName):
         </dt>
         <dd>
             @Model.LastName
@@ -34,7 +46,7 @@
             }
         </dd>
         
-        <dt>Phone Number:</dt>
+        <dt>@Html.DisplayNameFor(model => model.PhoneNumber):</dt>
         <dd>
             
             @(Model.PhoneNumber ?? "None")
@@ -52,7 +64,7 @@
                 }
         </dd>
 
-        <dt>Address:</dt>
+        <dt>@Html.DisplayNameFor(model => model.Address):</dt>
         <dd>
             @if (Model.Address != null)
             {
@@ -64,6 +76,38 @@
                 <p>No Address Provided.</p>
             }
         </dd>
+        @if (User.IsInRole("Member"))
+        {
+            //Members can see their own orders
+        <dt>
+            My Orders:
+        </dt>
+        <dd>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Order Date</th>
+                        <th>Subtotal</th>
+                        <th>GST</th>
+                        <th>Grand Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model.Orders)
+                    {
+                        <tr>
+                            <td>@order.OrderDate</td>
+                            <td>$@order.Subtotal</td>
+                            <td>$@order.GST</td>
+                            <td>$@order.GrandTotal</td>
+                            <td><a asp-controller="Orders" asp-action="Details" asp-route-id="@order.ID">Detail</a></td>
+                        </tr>
 
+                    }
+                </tbody>
+            </table>
+        </dd>
+        }
     </dl>
 </div>
