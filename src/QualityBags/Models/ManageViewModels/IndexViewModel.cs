@@ -15,6 +15,13 @@ namespace QualityBags.Models.ManageViewModels
 
         public string PhoneNumber { get; set; }
 
+        [Display(Name = "User Name")]
+        public string UserName { get; set; }
+
+        [Display(Name = "Email Address")]
+        [EmailAddress]
+        public string EmailAddress { get; set; }
+
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 

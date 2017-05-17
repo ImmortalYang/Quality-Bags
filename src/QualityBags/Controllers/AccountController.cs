@@ -58,7 +58,7 @@ namespace QualityBags.Controllers
             if (ModelState.IsValid)
             {
                 
-                var user = await _userManager.FindByEmailAsync(model.Email);
+                var user = await _userManager.FindByNameAsync(model.UserName);
                 if (user != null)
                 {
                     //Require the user to have an enabled state before they can log on.
@@ -80,10 +80,15 @@ namespace QualityBags.Controllers
 
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation(1, "User logged in.");
+                    if(returnUrl == null)
+                    {
+                        //Go to account index after log in, if no return url
+                        return RedirectToAction("Index", "Manage");
+                    }
                     return RedirectToLocal(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -127,7 +132,7 @@ namespace QualityBags.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser {
-                    UserName = model.Email,
+                    UserName = model.UserName,
                     Email = model.Email,
                     PhoneNumber = model.ContactNumber,
                     Address = model.Address,
@@ -143,7 +148,7 @@ namespace QualityBags.Controllers
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
                     await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                         "Thank you for registering with Quality Bags. "
-                        + $"Your Username is:{model.Email}. "
+                        + $"Your Username is:{model.UserName}. "
                         + $"Your Password is:{model.Password}. " 
                         + $"Please confirm your account by copying and pasting this link in your browser:{callbackUrl}");
                     _logger.LogInformation(3, "User created a new account with password.");

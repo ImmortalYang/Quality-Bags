@@ -61,6 +61,8 @@ namespace QualityBags.Controllers
                 TwoFactor = await _userManager.GetTwoFactorEnabledAsync(user),
                 Logins = await _userManager.GetLoginsAsync(user),
                 BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user),
+                UserName = await _userManager.GetUserNameAsync(user),
+                EmailAddress = await _userManager.GetEmailAsync(user),
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Address = user.Address,
