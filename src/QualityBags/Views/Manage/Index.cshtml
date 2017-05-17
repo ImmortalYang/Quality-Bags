@@ -76,6 +76,38 @@
                 <p>No Address Provided.</p>
             }
         </dd>
+        @if (User.IsInRole("Member"))
+        {
+            //Members can see their own orders
+        <dt>
+            My Orders:
+        </dt>
+        <dd>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Order Date</th>
+                        <th>Subtotal</th>
+                        <th>GST</th>
+                        <th>Grand Total</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var order in Model.Orders)
+                    {
+                        <tr>
+                            <td>@order.OrderDate</td>
+                            <td>$@order.Subtotal</td>
+                            <td>$@order.GST</td>
+                            <td>$@order.GrandTotal</td>
+                            <td></td>
+                        </tr>
 
+                    }
+                </tbody>
+            </table>
+        </dd>
+        }
     </dl>
 </div>

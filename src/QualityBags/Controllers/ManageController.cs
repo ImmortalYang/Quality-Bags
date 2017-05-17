@@ -9,6 +9,8 @@ using Microsoft.Extensions.Logging;
 using QualityBags.Models;
 using QualityBags.Models.ManageViewModels;
 using QualityBags.Services;
+using QualityBags.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace QualityBags.Controllers
 {
@@ -20,19 +22,22 @@ namespace QualityBags.Controllers
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
+        private readonly ApplicationDbContext _context;
 
         public ManageController(
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
         IEmailSender emailSender,
         ISmsSender smsSender,
-        ILoggerFactory loggerFactory)
+        ILoggerFactory loggerFactory,
+        ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<ManageController>();
+            _context = context;
         }
 
         //
@@ -54,6 +59,11 @@ namespace QualityBags.Controllers
             {
                 return View("Error");
             }
+            var orders = await _context.Orders
+                .Where(o => o.ApplicationUserId == user.Id)
+                .Include(o => o.OrderDetails)
+                .AsNoTracking()
+                .ToListAsync();
             var model = new IndexViewModel
             {
                 HasPassword = await _userManager.HasPasswordAsync(user),
@@ -66,6 +76,7 @@ namespace QualityBags.Controllers
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Address = user.Address,
+                Orders = orders
             };
             return View(model);
         }
