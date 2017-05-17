@@ -102,6 +102,27 @@ namespace QualityBags.Controllers
             return detail;
         }
 
+        // GET: Orders/Details/5
+        [Authorize(Roles = "Admin,Member")]
+        public async Task<IActionResult> Details(int? id)
+        {
+            if(id == null)
+            {
+                return NotFound();
+            }
+            var order = await _context.Orders
+                .Include(o => o.ApplicationUser)
+                .Include(o => o.OrderDetails)
+                    .ThenInclude(od => od.Product)
+                .AsNoTracking()
+                .SingleOrDefaultAsync(o => o.ID == id);
+            if (order == null)
+            {
+                return NotFound();
+            }
+            return View(order);
+        }
+
         [Authorize(Roles = "Member")]
         public async Task<IActionResult> Purchased(int? id)
         {

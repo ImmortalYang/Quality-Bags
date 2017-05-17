@@ -101,7 +101,7 @@
                             <td>$@order.Subtotal</td>
                             <td>$@order.GST</td>
                             <td>$@order.GrandTotal</td>
-                            <td></td>
+                            <td><a asp-controller="Orders" asp-action="Details" asp-route-id="@order.ID">Detail</a></td>
                         </tr>
 
                     }
