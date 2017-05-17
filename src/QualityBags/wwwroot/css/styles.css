@@ -87,9 +87,19 @@ textarea {
 .navbar .navbar-collapse .navbar-nav li:hover {
   background: #B1E6E6;
 }
+.page-layout h1,
+.page-layout h2 {
+  color: #B1E6E6;
+  text-shadow: -1px 0 #8AA9A9, 1px 0 #8AA9A9, 0 1px #8AA9A9, 0 -1px #8AA9A9;
+}
+.page-layout h3,
+.page-layout h4 {
+  color: #8AA9A9;
+}
 .page-section {
   padding-top: 2rem;
   padding-bottom: 2rem;
+  border-bottom: 2px solid #8AA9A9;
 }
 .page-section h1,
 .page-section h2 {
@@ -103,8 +113,20 @@ textarea {
 .page-section:first-of-type {
   padding-top: 0;
 }
+.page-section:last-of-type {
+  border-bottom: none;
+}
 .sidebar {
   background: #ddd;
+}
+.sidebar h1,
+.sidebar h2 {
+  color: #B1E6E6;
+  text-shadow: -1px 0 #8AA9A9, 1px 0 #8AA9A9, 0 1px #8AA9A9, 0 -1px #8AA9A9;
+}
+.sidebar h3,
+.sidebar h4 {
+  color: #8AA9A9;
 }
 .footer {
   background: #8AA9A9;

@@ -1,0 +1,30 @@
+﻿.page-layout{
+    h1, h2{
+        color: @brandColor;
+        .text-border(@accentColor);
+    }
+
+    h3, h4{
+        color: @accentColor;
+    }
+}
+
+.page-section {
+    .page-layout;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid @accentColor;
+
+    &:first-of-type{
+        padding-top: 0;
+    }
+    
+    &:last-of-type{
+        border-bottom: none;
+    }
+}
+
+.sidebar {
+    .page-layout;
+    background: #ddd;
+}

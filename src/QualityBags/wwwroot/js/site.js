@@ -1,4 +1,6 @@
-﻿$(document).ready(function () {
+﻿google.maps.event.addDomListener(window, 'load', initializeMap);
+$(document).ready(function () {
+    
     $(".img-input").change(function () {
         readURL(this);
     });
@@ -26,40 +28,40 @@ function addClickEventListenerToAddToCartBtns() {
     $(".add-to-cart")
         .off("click")
         .click(function () {
-        //Ajax call AddToCart action in ShoppingCart controller
-        $.get("/ShoppingCart/AddToCart/" + $(this).data("product-id"), function (data) {
-            //update returned shopping cart view component in the container
-            refreshShoppingCart(data);
+            //Ajax call AddToCart action in ShoppingCart controller
+            $.get("/ShoppingCart/AddToCart/" + $(this).data("product-id"), function (data) {
+                //update returned shopping cart view component in the container
+                refreshShoppingCart(data);
+            });
         });
-    });
 }
 
 function addClickEventListenerToRemoveFromCartBtns() {
     $(".remove-from-cart")
         .off("click")
         .click(function () {
-        //Ajax call RemoveFromCart action in ShoppingCart controller
-        $.get("/ShoppingCart/RemoveFromCart/" + $(this).data("product-id"), function (data) {
-            //update returned shopping cart view component in the container
-            refreshShoppingCart(data);
+            //Ajax call RemoveFromCart action in ShoppingCart controller
+            $.get("/ShoppingCart/RemoveFromCart/" + $(this).data("product-id"), function (data) {
+                //update returned shopping cart view component in the container
+                refreshShoppingCart(data);
+            });
         });
-    });
 }
 
 function addClickEventListenerToEmptyCartBtn() {
     $(".empty-cart")
         .off("click")
         .click(function () {
-        //Confirm dialog
-        if (false === confirm("Are you sure you want to delete all the items in the shopping cart?")) {
-            return;
-        }
-        //Ajax call EmptyCart action in ShoppingCart controller
-        $.get("/ShoppingCart/EmptyCart", function (data) {
-            //update returned shopping cart view component in the container
-            refreshShoppingCart(data);
+            //Confirm dialog
+            if (false === confirm("Are you sure you want to delete all the items in the shopping cart?")) {
+                return;
+            }
+            //Ajax call EmptyCart action in ShoppingCart controller
+            $.get("/ShoppingCart/EmptyCart", function (data) {
+                //update returned shopping cart view component in the container
+                refreshShoppingCart(data);
+            });
         });
-    });
 }
 
 function refreshShoppingCart(data) {
@@ -67,4 +69,32 @@ function refreshShoppingCart(data) {
     addClickEventListenerToAddToCartBtns();
     addClickEventListenerToRemoveFromCartBtns();
     addClickEventListenerToEmptyCartBtn();
+}
+
+//Initialize google map
+function initializeMap() {
+    var coordinate = new google.maps.LatLng(-36.880851, 174.709545);
+    var mapCanvas = document.getElementById('map');
+    var mapOptions = {
+        center: coordinate,
+        zoom: 15,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+    var map = new google.maps.Map(mapCanvas, mapOptions);
+    var marker = new google.maps.Marker({
+        position: coordinate,
+        map: map,
+        title: "Quality Bags"
+    });
+    var contentString =
+    "<div><h4>Quality Bags</h4><a href = '' target = '_blank'>Visit our website</a></div>";
+
+    var infowindow = new google.maps.InfoWindow({
+        content: contentString
+    });
+
+    marker.addListener('click', function () {
+        infowindow.open(map, marker);
+    });
+
 }
