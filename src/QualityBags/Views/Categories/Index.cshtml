@@ -31,14 +31,24 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
-            @if (User.IsInRole("Admin"))
-            {
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                <a class="view-products btn btn-action" data-category-id="@item.ID">
+                    <span class="glyphicon glyphicon-chevron-down"></span>
+                    Products
+                </a>
+
+                @if (User.IsInRole("Admin"))
+                {
+                    @: |
+                    <a asp-controller="Products" asp-action="Create" asp-route-categoryId="@item.ID">Add Product</a>@: | 
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edit</a>@: |
+                    <a asp-action="Details" asp-route-id="@item.ID">Details</a>@: |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                }
             </td>
-            }
+
+        </tr>
+        <tr class="product-list" data-category-id="@item.ID">
         </tr>
 }
     </tbody>

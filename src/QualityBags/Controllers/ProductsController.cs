@@ -68,9 +68,9 @@ namespace QualityBags.Controllers
 
         // GET: Products/Create
         [Authorize(Roles = "Admin")]
-        public IActionResult Create()
+        public IActionResult Create(int? categoryId = null)
         {
-            PopulateCategoriesAndSuppliersDropDownList();
+            PopulateCategoriesAndSuppliersDropDownList(categoryId);
             return View();
         }
 
@@ -218,7 +218,7 @@ namespace QualityBags.Controllers
             {
                 await _context.SaveChangesAsync();
             }
-            catch(DbUpdateException ex)
+            catch(DbUpdateException)
             {
                 return RedirectToAction("Delete", new { id = id, saveChangesError = true });
             }
@@ -227,13 +227,29 @@ namespace QualityBags.Controllers
             return RedirectToAction("Index");
         }
 
+        // List of products under certain category
+        // For Ajax call
+        // GET: Products/List?categoryId=1
+        public async Task<IActionResult> List(int? categoryId)
+        {
+            if(categoryId == null)
+            {
+                return NotFound();
+            }
+            var products = await _context.Products
+                .Where(p => p.CategoryID == categoryId)
+                .AsNoTracking()
+                .ToListAsync();
+            return PartialView(products);
+        }
+
         private bool ProductExists(int id)
         {
             return _context.Products.Any(e => e.ID == id);
         }
 
         /// <summary>
-        /// Populate the data for categories and suppliers selection
+        /// Populate the data for categories and suppliers selection using an instance of product
         /// </summary>
         /// <param name="product">The current product item being operated</param>
         private void PopulateCategoriesAndSuppliersDropDownList(Product product = null)
@@ -242,6 +258,19 @@ namespace QualityBags.Controllers
                 "ID", "CategoryName", product?.CategoryID);
             ViewData["SupplierID"] = new SelectList(_context.Suppliers.AsNoTracking(), 
                 "ID", "SupplierName", product?.SupplierID);
+        }
+
+        /// <summary>
+        /// Populate the data for categories and suppliers selection using given category and supplier id
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <param name="supplierId"></param>
+        private void PopulateCategoriesAndSuppliersDropDownList(int? categoryId = null, int? supplierId = null)
+        {
+            ViewData["CategoryID"] = new SelectList(_context.Categories.AsNoTracking(),
+                "ID", "CategoryName", categoryId);
+            ViewData["SupplierID"] = new SelectList(_context.Suppliers.AsNoTracking(),
+                "ID", "SupplierName", supplierId);
         }
 
         /// <summary>

@@ -8,6 +8,17 @@ $(document).ready(function () {
     addClickEventListenerToAddToCartBtns();
     addClickEventListenerToRemoveFromCartBtns();
     addClickEventListenerToEmptyCartBtn();
+
+    $(".view-products").click(function () {
+        var categoryId = $(this).data("category-id");
+        $.get("/Products/List?categoryId=" + categoryId,
+            function (data) {
+                $(".product-list[data-category-id='" +
+                    categoryId + "']")
+                    .html(data);
+                addClickEventListenerToAddToCartBtns();
+            });
+    });
 });
 
 //Show the change of uploaded image in the browser

@@ -1,0 +1,45 @@
+@model IEnumerable<QualityBags.Models.Product>
+
+<td></td>
+<td colspan="2">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProductName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UnitPrice)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnitPrice)
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-controller="Products" asp-route-id="@item.ID" class="btn btn-default">
+                            <span class="glyphicon glyphicon-list"></span>
+                            Details
+                        </a>
+                        @if (!User.IsInRole("Admin"))
+                        {
+                            @: | 
+                            <a class="add-to-cart btn btn-action" data-product-id="@item.ID">
+                                <span class="glyphicon glyphicon-shopping-cart"></span>
+                                Add To Cart
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</td>
