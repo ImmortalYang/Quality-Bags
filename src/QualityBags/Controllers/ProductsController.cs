@@ -28,20 +28,67 @@ namespace QualityBags.Controllers
         }
 
         // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+            string searchString, 
+            string sortBy,
+            string order
+
+            )
         {
-            var products = await _context.Products
+            var products = _context.Products
                 .Include(p => p.Category)
                 .Include(p => p.Supplier)
-                .AsNoTracking()
-                .ToListAsync();
+                .AsNoTracking();
+            //Apply filters
+            if(searchString != null)
+            {
+                products = products.Where(p => p.ProductName.Contains(searchString));
+                ViewData["searchString"] = searchString;
+            }
+            if (order == "asc")
+            {
+                switch (sortBy)
+                {
+                    case "product name":
+                        products = products.OrderBy(p => p.ProductName);
+                        break;
+                    case "category name":
+                        products = products.OrderBy(p => p.Category.CategoryName);
+                        break;
+                    case "unit price":
+                        products = products.OrderBy(p => p.UnitPrice);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else if(order == "dsc")
+            {
+                switch (sortBy)
+                {
+                    case "product name":
+                        products = products.OrderByDescending(p => p.ProductName);
+                        break;
+                    case "category name":
+                        products = products.OrderByDescending(p => p.Category.CategoryName);
+                        break;
+                    case "unit price":
+                        products = products.OrderByDescending(p => p.UnitPrice);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            ViewBag.order = new SelectList(new string[] { "asc", "dsc" }, order);
+            ViewBag.sortBy = new SelectList(new string[] { "product name", "category name" , "unit price" }, sortBy);
+            var productsList = await products.ToListAsync();
             if (User.IsInRole("Admin"))
             {
-                return View("AdminIndex", products);
+                return View("AdminIndex", productsList);
             }
             else
             {
-                return View(products);
+                return View(productsList);
             }
         }
 
