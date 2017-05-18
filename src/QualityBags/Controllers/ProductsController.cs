@@ -31,7 +31,9 @@ namespace QualityBags.Controllers
         public async Task<IActionResult> Index(
             string searchString, 
             string sortBy,
-            string order
+            string order, 
+            decimal? minPrice, 
+            decimal? maxPrice
 
             )
         {
@@ -40,11 +42,13 @@ namespace QualityBags.Controllers
                 .Include(p => p.Supplier)
                 .AsNoTracking();
             //Apply filters
+            //Filter: search string
             if(searchString != null)
             {
                 products = products.Where(p => p.ProductName.Contains(searchString));
                 ViewData["searchString"] = searchString;
             }
+            //filter: sort and order
             if (order == "asc")
             {
                 switch (sortBy)
@@ -80,7 +84,19 @@ namespace QualityBags.Controllers
                 }
             }
             ViewBag.order = new SelectList(new string[] { "asc", "dsc" }, order);
-            ViewBag.sortBy = new SelectList(new string[] { "product name", "category name" , "unit price" }, sortBy);
+            ViewBag.sortBy = new SelectList(new string[] { "", "product name", "category name" , "unit price" }, sortBy);
+            //filter: price range
+            if(minPrice != null || maxPrice != null)
+            {
+                minPrice = minPrice ?? 0;
+                products = products.Where(p => p.UnitPrice >= minPrice);
+                if(maxPrice != null)
+                {
+                    products = products.Where(p => p.UnitPrice <= maxPrice);
+                }
+            }
+            ViewBag.minPrice = minPrice;
+            ViewBag.maxPrice = maxPrice;
             var productsList = await products.ToListAsync();
             if (User.IsInRole("Admin"))
             {
