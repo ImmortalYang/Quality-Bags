@@ -1,4 +1,4 @@
-@model IEnumerable<QualityBags.Models.Product>
+@model PaginatedList<QualityBags.Models.Product>
 
 @{
     ViewData["Title"] = "Products";
@@ -8,7 +8,7 @@
 <h2>Products</h2>
 
 <!-- Render the filter form for products list -->
-@await Html.PartialAsync("Filter");
+@Html.Partial("_Filter");
 
 @for (int i = 0; i < Model.Count(); i++)
 {
@@ -53,3 +53,6 @@
 {
     @:</div><!-- /row -->
 }
+
+<!-- Pagination -->
+@Html.Partial("_Pagination", Model);

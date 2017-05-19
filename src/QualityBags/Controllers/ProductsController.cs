@@ -33,8 +33,9 @@ namespace QualityBags.Controllers
             string sortBy,
             string order, 
             decimal? minPrice, 
-            decimal? maxPrice
-
+            decimal? maxPrice, 
+            int? pageIndex, 
+            int? pageSize
             )
         {
             var products = _context.Products
@@ -43,10 +44,10 @@ namespace QualityBags.Controllers
                 .AsNoTracking();
             //Apply filters
             //Filter: search string
-            if(searchString != null)
+            if(!string.IsNullOrWhiteSpace(searchString))
             {
                 products = products.Where(p => p.ProductName.Contains(searchString));
-                ViewData["searchString"] = searchString;
+                ViewBag.searchString = searchString;
             }
             //filter: sort and order
             if (order == "asc")
@@ -97,7 +98,12 @@ namespace QualityBags.Controllers
             }
             ViewBag.minPrice = minPrice;
             ViewBag.maxPrice = maxPrice;
-            var productsList = await products.ToListAsync();
+            ViewBag.pageSize = pageSize.GetValueOrDefault(3);
+            var productsList = await PaginatedList<Product>.CreateAsync(
+                    products, pageIndex??1, ViewBag.pageSize
+                );
+            
+
             if (User.IsInRole("Admin"))
             {
                 return View("AdminIndex", productsList);
@@ -216,7 +222,7 @@ namespace QualityBags.Controllers
             
             if(await TryUpdateModelAsync(
                 productToUpdate, "", 
-                p => p.CategoryID, p => p.SupplierID, p => p.ImagePath, 
+                p => p.CategoryID, p => p.SupplierID,  
                 p => p.ProductName, p => p.Description, P => P.UnitPrice)
                 )
             {
@@ -303,7 +309,7 @@ namespace QualityBags.Controllers
                 .Where(p => p.CategoryID == categoryId)
                 .AsNoTracking()
                 .ToListAsync();
-            return PartialView(products);
+            return PartialView("_List", products);
         }
 
         private bool ProductExists(int id)

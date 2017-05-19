@@ -1,4 +1,4 @@
-@model IEnumerable<QualityBags.Models.Product>
+@model PaginatedList<QualityBags.Models.Product>
 
 @{
     ViewData["Title"] = "Products";
@@ -9,7 +9,7 @@
 <p><a asp-action="Create" class="btn btn-action">Create New</a></p>
 
 <!-- Render the filter form for products list -->
-@await Html.PartialAsync("Filter");
+@Html.Partial("_Filter");
 
 <table class="table">
     <thead>
@@ -18,19 +18,19 @@
                 Image
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ProductName)
+                Product Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                Description
             </th> 
             <th>
-                @Html.DisplayNameFor(model => model.UnitPrice)
+                Unit Price
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Category)
+                Category
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Supplier)
+                Supplier
             </th>
             <th></th>
         </tr>
@@ -47,14 +47,14 @@
                          onerror="this.onerror = null; this.src = '@errImg'">
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.ProductName)
+                    @item.ProductName
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Description)
+                    @item.Description
                 </td>
                 
                 <td>
-                    @Html.DisplayFor(modelItem => item.UnitPrice)
+                    $@item.UnitPrice
                 </td>
                 <td>
                     @item.Category.CategoryName
@@ -72,3 +72,6 @@
         }
     </tbody>
 </table>
+
+<!-- Pagination -->
+@Html.Partial("_Pagination", Model);

@@ -1,0 +1,31 @@
+<!-- Partial View for products list filter -->
+<form class="form-inline" asp-action="Index" method="get">
+    <div class="form-group">
+        <label for="searchString">Search by Name:</label>
+        <input class="form-control" type="text" name="searchString" id="searchString" value="@ViewBag.searchString" />
+    </div>
+    <div class="form-group">
+        <label for="sortBy">Sort By:</label>
+        <select class="form-control" name="sortBy" id="sortBy" asp-items="ViewBag.sortBy"></select>
+    </div>
+    <div class="form-group">
+        <label for="order">Order:</label>
+        <select class="form-control" name="order" id="order" asp-items="ViewBag.order"></select>
+    </div>
+    <div class="form-group">
+        <label for="minPrice">Price Range:</label>
+        <input class="form-control" type="number" min="0" name="minPrice" id="minPrice" value="@ViewBag.minPrice" />
+        <label for="maxPrice">To</label>
+        <input class="form-control" type="number" min="0" name="maxPrice" id="maxPrice" value="@ViewBag.maxPrice" />
+    </div>
+    <div class="form-group">
+        <label for="pageSize">Items per Page:</label>
+        <input class="form-control" type="number" min="3" max="60" step="1" 
+               name="pageSize" id="pageSize" value="@ViewBag.pageSize" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-default">Apply Filter</button> | 
+        <a class="btn btn-default" asp-action="Index" asp-controller="Products">Back to Full List</a>
+    </div>
+</form>
+<hr />

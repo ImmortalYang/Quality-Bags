@@ -153,6 +153,9 @@ textarea {
     min-height: calc(100vh - 71px - 5rem);
   }
 }
+.form-inline .form-group {
+  margin-bottom: 15px;
+}
 /*Add transition and box-shadow effect to boostrap btn class*/
 .btn {
   transition: all 0.6s ease-out;

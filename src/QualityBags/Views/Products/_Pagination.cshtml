@@ -1,0 +1,41 @@
+<!-- Partial View for displaying pagination -->
+@model PaginatedList<Product>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+<hr />
+<form class="form-inline" asp-action="Index" 
+      asp-route-searchString="@ViewBag.searchString" 
+      asp-route-sortBy="@ViewBag.sortBy.SelectedValue" 
+      asp-route-order="@ViewBag.order.SelectedValue" 
+      asp-route-minPrice="@ViewBag.minPrice" 
+      asp-route-maxPrice="@ViewBag.maxPrice" 
+      asp-route-pageSize="@ViewBag.pageSize">
+    <button type="submit" class="btn btn-link @prevDisabled"
+           name="pageIndex" value="@(Model.PageIndex - 1)" @prevDisabled >
+        <span class="glyphicon glyphicon-chevron-left"></span>
+        Previous
+    </button>
+    @for(int index = 1; index <= Model.TotalPages; index++)
+    {
+        <button type="submit" class="btn-link" 
+                name="pageIndex" value="@index">
+            @if(index == Model.PageIndex)
+            {
+                <strong style="color: black;">@index</strong>
+            }
+            else
+            {
+                @index
+            }
+        </button>
+
+    }
+    <button type="submit" class="btn btn-link @nextDisabled" 
+            name="pageIndex" value="@(Model.PageIndex + 1)" @nextDisabled>
+        Next
+        <span class="glyphicon glyphicon-chevron-right"></span>
+    </button>
+</form>
