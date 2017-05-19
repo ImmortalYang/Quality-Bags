@@ -29,7 +29,7 @@ function readURL(input) {
 
         reader.onload = function (e) {
             $('.product-image').attr('src', e.target.result);
-        }
+        };
 
         reader.readAsDataURL(input.files[0]);
     }
@@ -93,7 +93,7 @@ function initializeMap() {
         center: coordinate,
         zoom: 15,
         mapTypeId: google.maps.MapTypeId.ROADMAP
-    }
+    };
     var map = new google.maps.Map(mapCanvas, mapOptions);
     var marker = new google.maps.Marker({
         position: coordinate,
