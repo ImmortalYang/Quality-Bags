@@ -13,6 +13,10 @@ gulp.task("watch", function () {
     watch("./wwwroot/css/**/*.less", function () {
         gulp.start("cssInject");
     });
+
+    watch(["./wwwroot/js/**/*.js", "!./wwwroot/js/scripts.js"], function () {
+        gulp.start("scriptsRefresh");
+    })
 });
 
 gulp.task('cssInject', ['less'], function () {
