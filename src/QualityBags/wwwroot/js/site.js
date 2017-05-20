@@ -1,5 +1,4 @@
-﻿import $ from "jquery";
-
+﻿
 google.maps.event.addDomListener(window, 'load', initializeMap);
 $(document).ready(function () {
     
