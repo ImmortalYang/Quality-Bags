@@ -1,7 +1,11 @@
-﻿
+﻿var hostname = document.location.hostname;
+var path = "";
 google.maps.event.addDomListener(window, 'load', initializeMap);
 $(document).ready(function () {
-    
+    if (hostname.indexOf("unitec") !== -1) {
+        path = "/zhangj188/asp_assignment";
+    }
+
     $(".img-input").change(function () {
         readURL(this);
     });
@@ -12,7 +16,7 @@ $(document).ready(function () {
 
     $(".view-products").click(function () {
         var categoryId = $(this).data("category-id");
-        $.get("/Products/List?categoryId=" + categoryId,
+        $.get(path + "/Products/List?categoryId=" + categoryId,
             function (data) {
                 $(".product-list[data-category-id='" +
                     categoryId + "']")
@@ -41,7 +45,7 @@ function addClickEventListenerToAddToCartBtns() {
         .off("click")
         .click(function () {
             //Ajax call AddToCart action in ShoppingCart controller
-            $.get("/ShoppingCart/AddToCart/" + $(this).data("product-id"), function (data) {
+            $.get(path + "/ShoppingCart/AddToCart/" + $(this).data("product-id"), function (data) {
                 //update returned shopping cart view component in the container
                 refreshShoppingCart(data);
             });
@@ -53,7 +57,7 @@ function addClickEventListenerToRemoveFromCartBtns() {
         .off("click")
         .click(function () {
             //Ajax call RemoveFromCart action in ShoppingCart controller
-            $.get("/ShoppingCart/RemoveFromCart/" + $(this).data("product-id"), function (data) {
+            $.get(path + "/ShoppingCart/RemoveFromCart/" + $(this).data("product-id"), function (data) {
                 //update returned shopping cart view component in the container
                 refreshShoppingCart(data);
             });
@@ -69,7 +73,7 @@ function addClickEventListenerToEmptyCartBtn() {
                 return;
             }
             //Ajax call EmptyCart action in ShoppingCart controller
-            $.get("/ShoppingCart/EmptyCart", function (data) {
+            $.get(path + "/ShoppingCart/EmptyCart", function (data) {
                 //update returned shopping cart view component in the container
                 refreshShoppingCart(data);
             });

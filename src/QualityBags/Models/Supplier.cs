@@ -19,7 +19,6 @@ namespace QualityBags.Models
         [Required]
         [Display(Name = "Contact Number")]
         [DataType(DataType.PhoneNumber)]
-        [Phone]
         public int ContactNumber { get; set; }
 
         [Display(Name = "Email Address")]
